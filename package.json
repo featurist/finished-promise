@@ -1,0 +1,18 @@
+{
+  "name": "finished-promise",
+  "version": "0.0.1",
+  "description": "Synchronous implementation of Promise for use in tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "author": "Josh Chisholm <joshuachisholm@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/featurist/finished-promise.git"
+  }
+}
