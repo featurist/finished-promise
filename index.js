@@ -45,8 +45,7 @@ FinishedPromise.prototype.then = function(onFulfilled, onRejected) {
   if (this.error) {
     return onRejected ? this.catch(onRejected) : this
   }
-  const result = onFulfilled(this.result)
-  return this.constructor.resolve(result)
+  return this.constructor.resolve(onFulfilled(this.result))
 }
 
 FinishedPromise.prototype.catch = function(onRejected) {
@@ -55,8 +54,7 @@ FinishedPromise.prototype.catch = function(onRejected) {
     return this
   }
   if (this.error) {
-    const result = onRejected(this.error)
-    return this.constructor.resolve(result)
+    return this.constructor.resolve( onRejected(this.error))
   }
   return this
 }
@@ -66,7 +64,7 @@ FinishedPromise.all = function(promiseArray) {
     var resolved = false
     var results = []
     var count = promiseArray.length
-    const waitForResult = i => {
+    function waitForResult(i) {
       promiseArray[i].then(function(result) {
         results[i] = result
         count--
@@ -88,6 +86,9 @@ FinishedPromise.all = function(promiseArray) {
 }
 
 FinishedPromise.resolve = function(value) {
+  if (value && typeof value.then == 'function') {
+    return value.then(function(result) { return result })
+  }
   return new this(function(resolve) {
     resolve(value)
   })

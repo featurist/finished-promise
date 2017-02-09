@@ -40,6 +40,27 @@ function describeSynchronously(Promise, waiter, eventually) {
     })
   })
 
+  describe(`${Promise.name}.resolve(value).then(promiseReturningCallback)`, () => {
+    it('invokes the callback passed to .then(...)', () => {
+      const outcome = spy(Promise.resolve(27).then(function(x) { return Promise.resolve(x) }))
+      return eventually(() => assert.deepEqual(outcome, { resolves: [27], rejections: [] }))
+    })
+  })
+
+  describe(`${Promise.name}.resolve(${Promise.name}.resolve(value))`, () => {
+    it('invokes the callback passed to .then(...) with the value', () => {
+      const outcome = spy(Promise.resolve(Promise.resolve(123)))
+      return eventually(() => assert.deepEqual(outcome, { resolves: [123], rejections: [] }))
+    })
+  })
+
+  describe(`${Promise.name}.reject(${Promise.name}.reject(value)).catch(callback)`, () => {
+    it('rejects with the callback passed to .catch(...) with the value', () => {
+      const outcome = spy(Promise.reject(Promise.reject(123)).catch(function(r) { return r }))
+      return eventually(() => assert.deepEqual(outcome, { resolves: [], rejections: [123] }))
+    })
+  })
+
   describe(`new ${Promise.name}(...)`, () => {
 
     context('when the callback resolves immediately', () => {
@@ -228,6 +249,27 @@ function describeSynchronously(Promise, waiter, eventually) {
         .then(() => eventually(() => assert.deepEqual(outcome, { resolves: [], rejections: [456] })))
     })
   })
+
+  describe(`${Promise.name}.all(promiseArray).catch(callback).then(callback)`, function () {
+    it('executes the then callback', function (callback) {
+      Promise.all([Promise.resolve(1), Promise.resolve(1)])
+        .catch(function(e) { callback(e) })
+        .then(function() { callback() })
+    })
+  })
+
+  describe(`${Promise.name}.all(promiseArray).then(callback).catch(callback).then(callback)`, function () {
+    it('executes the then callback', function (callback) {
+      Promise.all([Promise.resolve(1), Promise.resolve(2)])
+        .then(function(results) { return results })
+        .catch(function(e) { callback(e) })
+        .then(function(results) {
+          assert.deepEqual([1, 2], results)
+          callback()
+        })
+    })
+  })
+
 }
 
 function describeAsynchronously(Promise, waiter, eventually) {
