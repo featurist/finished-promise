@@ -24,7 +24,7 @@ describe('Promise', () => {
     assert.equal(result, 123)
   })
 
-  it('is replaced with FinishedPromise in async functions (failing)', () => {
+  it('is replaced with FinishedPromise in async functions', () => {
     let result
 
     async function f1(v) {
