@@ -100,4 +100,14 @@ FinishedPromise.reject = function(error) {
   })
 }
 
+const nativePromise = Promise
+
+FinishedPromise.install = function() {
+  Promise = FinishedPromise
+}
+
+FinishedPromise.uninstall = function() {
+  Promise = nativePromise
+}
+
 module.exports = FinishedPromise

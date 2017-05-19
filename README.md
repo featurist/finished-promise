@@ -32,3 +32,15 @@ describe('FinishedPromise', () => {
   })
 })
 ```
+
+## async / await
+
+Overriding `global.Promise` has no effect on `async` functions - they will use
+the native v8 `Promise` regardless.
+
+To circumvent this limitation we can transpile the source code prior to running
+it. Babel can do this, although rather slowly, which would defeat the purpose
+of this library - fast tests!
+
+Instead we can use [async-to-gen](https://github.com/leebyron/async-to-gen) which
+is actually very fast. See `./mocha` for an example.
