@@ -1,6 +1,6 @@
 {
   "name": "finished-promise",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Synchronous implementation of Promise for use in tests",
   "main": "index.js",
   "scripts": {
