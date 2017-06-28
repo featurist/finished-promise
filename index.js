@@ -64,6 +64,12 @@ FinishedPromise.all = function(promiseArray) {
     var resolved = false
     var results = []
     var count = promiseArray.length
+
+    if (count === 0) {
+      resolved = true
+      return resolve(results)
+    }
+
     function waitForResult(i) {
       promiseArray[i].then(function(result) {
         results[i] = result
