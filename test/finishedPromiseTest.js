@@ -180,6 +180,11 @@ function describeSynchronously(Promise, waiter, eventually) {
 
   describe(`${Promise.name}.all(promiseArray)`, () => {
 
+    it('resolves with an empty array', () => {
+      const outcome = spy(Promise.all([]))
+      return eventually(() => assert.deepEqual(outcome, { resolves: [[]], rejections: [] }))
+    })
+
     it('resolves with an array of one result after a single promise resolves', () => {
       const promise = waiter()
       const outcome = spy(Promise.all([promise]))
