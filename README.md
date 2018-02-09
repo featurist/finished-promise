@@ -44,3 +44,6 @@ of this library - fast tests!
 
 Instead we can use [async-to-gen](https://github.com/leebyron/async-to-gen) which
 is actually very fast. See `./mocha` for an example.
+
+## We're Hiring!
+Featurist provides full stack, feature driven development teams. Want to join us? Check out [our career opportunities](https://www.featurist.co.uk/careers/).
